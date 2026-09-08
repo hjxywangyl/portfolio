@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yanlin Wang — Portfolio 2026</title>
+<link rel="icon" type="image/png" href="assets/icon.png">
+<style>
+  :root{
+    --bg:#0b0d14; --bg2:#10121b; --card:#171a26; --ink:#f2f4fb; --muted:#9aa2b6;
+    --line:#282c3a; --blue:#5566ff; --blue2:#6d7bff; --gradA:#7b8cff; --gradB:#2f3ff0;
+    --radius:26px; --shadow:0 24px 60px rgba(0,0,0,.45);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);
+    font-family:"Helvetica Neue","Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.5}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+  h1,h2,h3{letter-spacing:-.02em;font-weight:800}
+  a{text-decoration:none;color:inherit}
+  img{display:block;max-width:100%}
+  section{padding:70px 0}
+  /* pill button */
+  .btn{display:inline-flex;align-items:center;gap:0;font-size:14px;font-weight:600}
+  .btn .lbl{background:#f2f4fb;color:#12141a;padding:13px 22px;border-radius:100px;transition:background .2s}
+  .btn .arr{width:44px;height:44px;border-radius:50%;background:#f2f4fb;color:#12141a;
+    display:grid;place-items:center;margin-left:6px;transition:transform .2s}
+  .btn:hover .arr{transform:translateX(3px)}
+  .btn.light .lbl,.btn.light .arr{background:#12141a;color:#f2f4fb}
+  .btn.blue .lbl,.btn.blue .arr{background:var(--blue);color:#fff}
+  /* eyebrow */
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);
+    font-weight:600;justify-content:center}
+  .eyebrow .dot{width:14px;height:14px;border-radius:4px;background:var(--blue);
+    display:inline-block;transform:rotate(0deg)}
+  .center{text-align:center}
+  .sec-title{font-size:clamp(30px,4.6vw,48px);line-height:1.08;margin-top:16px}
+  /* floating tag */
+  .ptag{position:absolute;background:#ffffff;border:1px solid rgba(255,255,255,.6);border-radius:100px;
+    padding:7px 15px;font-size:12.5px;font-weight:600;color:#12141a;box-shadow:0 8px 20px rgba(0,0,0,.35)}
+  /* NAV */
+  nav{position:sticky;top:0;z-index:50;background:rgba(11,13,20,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:74px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px}
+  .logo .mk{width:32px;height:32px;border-radius:9px;object-fit:cover;display:block}
+  .navlinks{display:flex;gap:30px;font-size:14.5px;color:#c3c8d6;font-weight:500}
+  .navlinks a:hover{color:var(--blue)}
+  @media(max-width:860px){.navlinks{display:none}}
+  /* HERO */
+  .hero{padding-top:20px;position:relative}
+  .hero-ghost{position:absolute;top:-6px;left:0;right:0;text-align:center;
+    font-size:clamp(58px,13.5vw,180px);font-weight:800;letter-spacing:-.03em;
+    color:#1c2033;z-index:0;user-select:none;pointer-events:none;line-height:1;white-space:nowrap}
+  .hero-photo{position:relative;z-index:2;width:min(430px,74vw);margin:36px auto 0;height:auto}
+  .arch{position:relative;background:linear-gradient(160deg,#1b2a6b,#0f1b4d);
+    border-radius:220px 220px 34px 34px;padding-top:20px;overflow:hidden;aspect-ratio:1/1.14}
+  .arch img{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100%;height:100%;object-fit:cover;object-position:top center;max-width:none}
+  .hero-photo .ptag{z-index:4}
+  .hero-photo .ptag.t1{top:96px;left:-46px;transform:rotate(-11deg)}
+  .hero-photo .ptag.t2{top:64px;right:-38px;transform:rotate(9deg)}
+  .hero-photo .ptag.t3{bottom:150px;left:-52px;transform:rotate(8deg)}
+  .hero-photo .ptag.t4{bottom:96px;right:-46px;transform:rotate(-9deg)}
+  @media(max-width:600px){
+    .hero-photo .ptag.t1{left:-14px}.hero-photo .ptag.t2{right:-10px}
+    .hero-photo .ptag.t3{left:-10px;bottom:120px}.hero-photo .ptag.t4{right:-12px;bottom:80px}}
+  .hero-head{position:relative;z-index:2;margin-top:26px}
+  .hey{font-size:15px;color:var(--muted);margin-bottom:8px}
+  .hero-head h1{font-size:clamp(40px,7.4vw,78px);line-height:1.02}
+  .hero-head .span{margin-top:22px;font-size:14px;color:var(--muted);letter-spacing:.04em}
+  .hero-head .span b{color:var(--blue);font-weight:700}
+  /* ABOUT */
+  .about-lead{font-size:clamp(24px,3.4vw,38px);line-height:1.28;font-weight:800;max-width:720px;margin-top:10px}
+  .about-grid{display:grid;grid-template-columns:340px 1fr;gap:26px;margin-top:44px;align-items:stretch}
+  @media(max-width:820px){.about-grid{grid-template-columns:1fr}}
+  .about-photo{background:linear-gradient(160deg,#1b2a6b,#0f1b4d);border-radius:var(--radius);
+    overflow:hidden;position:relative;min-height:420px}
+  @media(max-width:820px){.about-photo{min-height:0;aspect-ratio:1/1.05}}
+  .about-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center}
+  .about-cards{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-content:start}
+  @media(max-width:560px){.about-cards{grid-template-columns:1fr}}
+  .mini{background:var(--card);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow)}
+  .mini .big{font-size:40px;font-weight:800}
+  .mini .lbl{color:var(--muted);font-size:13.5px;margin-top:2px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .chips span{background:#20243400;background:#1e2231;border:1px solid var(--line);border-radius:100px;padding:6px 13px;font-size:12.5px}
+  .mini h3{font-size:19px;margin-bottom:6px}
+  /* PROJECTS */
+  .proj{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
+    padding:34px;margin-bottom:24px;display:grid;grid-template-columns:1fr 46%;gap:30px;
+    align-items:center;position:relative;overflow:hidden}
+  .proj .num{position:absolute;top:22px;right:30px;font-size:58px;font-weight:800;color:#22273a}
+  .proj-body{max-width:440px}
+  .proj-body h3{font-size:clamp(22px,2.6vw,28px);margin-bottom:14px}
+  .proj-body .co{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--blue);
+    font-weight:700;margin-bottom:14px}
+  .proj-body p{color:#b6bccb;font-size:15px;line-height:1.65;margin-bottom:16px}
+  .proj-stats{display:flex;gap:26px;margin-bottom:22px;flex-wrap:wrap}
+  .proj-stats .s .n{font-size:26px;font-weight:800}
+  .proj-stats .s .l{font-size:12px;color:var(--muted)}
+  .proj-img{border-radius:18px;overflow:hidden;aspect-ratio:4/3;background:#1e2231;position:relative}
+  .proj-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
+  @media(max-width:760px){.proj{grid-template-columns:1fr;padding:24px}
+    .proj .num{font-size:44px;top:16px;right:22px}}
+  /* SERVICES / SKILLS grid */
+  .svc-grid{display:grid;grid-template-columns:1fr 1fr 340px;gap:22px;margin-top:44px}
+  @media(max-width:960px){.svc-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:600px){.svc-grid{grid-template-columns:1fr}}
+  .svc{border-radius:var(--radius);padding:28px;min-height:230px;position:relative;overflow:hidden}
+  .svc.blue{background:linear-gradient(160deg,var(--gradA),var(--gradB));color:#fff}
+  .svc.plain{background:var(--card);box-shadow:var(--shadow)}
+  .svc h3{font-size:21px;margin-bottom:8px}
+  .svc p{font-size:14px;color:var(--muted);line-height:1.55}
+  .svc.blue p{color:rgba(255,255,255,.85)}
+  .svc .tags{position:absolute;bottom:26px;left:28px;right:28px;display:flex;flex-wrap:wrap;gap:8px}
+  .svc.blue .tags span{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);
+    color:#fff;border-radius:100px;padding:6px 12px;font-size:12px}
+  .svc.plain .tags span{background:#1e2231;border:1px solid var(--line);border-radius:100px;padding:6px 12px;font-size:12px}
+  .svc-tall{grid-row:span 2;background:linear-gradient(165deg,#8f9dff,#2b3ae6);color:#fff;
+    display:flex;flex-direction:column;justify-content:space-between}
+  @media(max-width:960px){.svc-tall{grid-column:span 2;grid-row:auto;min-height:180px}}
+  @media(max-width:600px){.svc-tall{grid-column:auto}}
+  .svc-tall{padding-top:32px}
+  .svc-tall .trust{background:rgba(255,255,255,.92);color:var(--ink);border-radius:100px;
+    padding:6px 14px;font-size:12.5px;font-weight:600;display:inline-block;margin-bottom:16px}
+  .aigc-tags{position:static;display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+  .aigc-tags span{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);
+    color:#fff;border-radius:100px;padding:6px 13px;font-size:12.5px;font-weight:500}
+  /* skills compact rows */
+  .skill-rows{margin-top:40px;border-top:1px solid var(--line)}
+  .skill-row{display:grid;grid-template-columns:180px 1fr;gap:24px;align-items:center;
+    padding:20px 4px;border-bottom:1px solid var(--line)}
+  @media(max-width:600px){.skill-row{grid-template-columns:1fr;gap:12px}}
+  .sk-cat{font-size:16px;font-weight:800;color:var(--ink)}
+  .sk-tags{display:flex;flex-wrap:wrap;gap:9px}
+  .sk-tags span{background:var(--card);border:1px solid var(--line);border-radius:100px;
+    padding:7px 15px;font-size:13px;color:#c3c8d6;font-weight:500}
+  .svc-tall h3{font-size:27px}
+  .svc-tall p{color:rgba(255,255,255,.9);margin:8px 0 20px}
+  /* WORKS marquee (copyright & illustration) */
+  .wrap-full{max-width:100%;overflow:hidden}
+  .marquee{overflow:hidden;margin-top:22px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+    mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+  .mq-track{display:flex;gap:18px;width:max-content}
+  .mq-left{animation:mq-scroll-l 40s linear infinite}
+  .mq-right{animation:mq-scroll-r 40s linear infinite}
+  .marquee:hover .mq-track{animation-play-state:paused}
+  @keyframes mq-scroll-l{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @keyframes mq-scroll-r{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+  .mq-card{flex:0 0 auto;width:230px;border-radius:16px;overflow:hidden;background:var(--card);
+    border:1px solid var(--line);box-shadow:var(--shadow);text-decoration:none;transition:transform .2s,border-color .2s}
+  .mq-card:hover{transform:translateY(-4px);border-color:var(--blue)}
+  .mq-card img{width:100%;height:150px;object-fit:cover;display:block;background:#1e2231}
+  .mq-cap{display:block;padding:12px 14px;font-size:13px;color:#c3c8d6;font-weight:600}
+  @media(prefers-reduced-motion:reduce){.mq-left,.mq-right{animation:none}}
+  /* WRITING */
+  .write-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:44px}
+  @media(max-width:820px){.write-grid{grid-template-columns:1fr}}
+  .wcard{background:var(--card);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow)}
+  .wcard .k{font-size:12.5px;color:var(--blue);font-weight:700;margin-bottom:10px}
+  .wcard ul{list-style:none}
+  .wcard li{padding:11px 0;border-bottom:1px solid var(--line);font-size:14.5px;color:#c3c8d6}
+  .wcard li:last-child{border-bottom:none}
+  /* CTA + FOOTER */
+  .cta{background:linear-gradient(160deg,#7c8bff 0%,#2b3ae6 100%);border-radius:var(--radius);
+    padding:70px 56px;color:#fff;position:relative;overflow:hidden}
+  .cta h2{font-size:clamp(30px,5vw,52px);line-height:1.05;max-width:560px}
+  .cta .contact{margin-top:26px;display:flex;flex-wrap:wrap;gap:26px;font-size:14.5px;color:rgba(255,255,255,.9)}
+  .cta .btn{margin-top:30px}
+  .foot-links{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:46px;
+    position:relative;z-index:2}
+  @media(max-width:600px){.foot-links{grid-template-columns:1fr 1fr}}
+  .foot-links a{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);
+    border-radius:16px;padding:18px 20px;font-weight:600;display:flex;align-items:center;gap:10px}
+  .foot-links a:hover{background:rgba(255,255,255,.16)}
+  .foot-bottom{border-top:1px solid rgba(255,255,255,.2);margin-top:36px;padding-top:24px;
+    display:flex;justify-content:space-between;align-items:center;font-size:13px;color:rgba(255,255,255,.8);flex-wrap:wrap;gap:14px}
+  .badge{position:fixed;left:16px;bottom:16px;z-index:90;background:var(--blue);color:#fff;
+    font-size:12px;padding:8px 14px;border-radius:100px;font-weight:600}
+  /* EXPERIENCE TIMELINE */
+  .tl{margin-top:44px;border-top:1px solid var(--line)}
+  .tl-row{display:grid;grid-template-columns:150px 1fr 220px;gap:24px;padding:22px 4px;
+    border-bottom:1px solid var(--line);align-items:baseline;transition:background .15s}
+  .tl-row:hover{background:rgba(255,255,255,.02)}
+  .tl-row .yr{color:var(--muted);font-size:13.5px;font-variant-numeric:tabular-nums}
+  .tl-row .co{font-size:18px;font-weight:700}
+  .tl-row .co span{display:block;color:var(--blue2);font-size:13px;font-weight:500;margin-top:3px}
+  .tl-row .kw{color:#b6bccb;font-size:13.5px;line-height:1.5}
+  @media(max-width:760px){.tl-row{grid-template-columns:1fr;gap:5px}.tl-row .kw{margin-top:2px}}
+  /* EXPERIENCE collapsible */
+  .exp-summary{text-align:center;color:#c3c8d6;font-size:16px;max-width:620px;margin:14px auto 0}
+  .exp-logos{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center;margin-top:26px}
+  .lc{width:48px;height:48px;border-radius:12px;overflow:hidden;display:inline-flex;
+    box-shadow:0 4px 14px rgba(0,0,0,.25)}
+  .lc img{width:100%;height:100%;object-fit:cover;display:block}
+  .ec{background:var(--card);border:1px solid var(--line);border-radius:100px;
+    padding:9px 18px;font-size:14px;font-weight:600;color:#e6e9f0}
+  .ec-edu{color:var(--blue2);height:46px;display:inline-flex;align-items:center}
+  .exp-toggle{display:flex;align-items:center;gap:9px;margin:30px auto 0;
+    background:linear-gradient(135deg,var(--gradA),var(--gradB));border:none;color:#fff;font-size:15px;font-weight:700;
+    padding:14px 28px;border-radius:100px;cursor:pointer;transition:all .2s;font-family:inherit;
+    box-shadow:0 8px 24px rgba(59,78,240,.4)}
+  .exp-toggle:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(59,78,240,.55)}
+  .exp-toggle .chev{transition:transform .25s}
+  .exp-toggle.open .chev{transform:rotate(180deg)}
+  .exp-detail{max-height:0;overflow:hidden;transition:max-height .45s ease}
+  .exp-detail.open{max-height:1400px}
+  /* EXPERIENCE two-col (project + education) */
+  .exp-main{display:grid;grid-template-columns:1.4fr 1fr;gap:48px;margin-top:36px;align-items:start}
+  @media(max-width:760px){.exp-main{grid-template-columns:1fr;gap:28px}}
+  .exp-h{font-size:15px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;
+    padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:6px}
+  .exp-item{padding:13px 0;border-bottom:1px solid var(--line)}
+  .exp-item:last-child{border-bottom:none}
+  .exp-item .yr{color:var(--muted);font-size:12.5px;margin-bottom:3px}
+  .exp-item .co{font-size:16px;font-weight:700;line-height:1.25}
+  .exp-item .co span{display:block;color:var(--blue2);font-size:12.5px;font-weight:500;margin-top:2px}
+  .exp-item .kw{color:#b6bccb;font-size:12.5px;line-height:1.45;margin-top:4px}
+  /* CAPABILITY SECTIONS */
+  .cap-head{display:flex;align-items:center;gap:14px;margin-bottom:10px}
+  .cap-head .cn{font-size:44px;font-weight:800;color:#22273a;line-height:1}
+  .cap-head h2{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em}
+  .cap-lead{color:var(--muted);max-width:640px;margin-bottom:36px;font-size:15px;line-height:1.6}
+  .case{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:30px;margin-bottom:22px;box-shadow:var(--shadow);position:relative}
+  .case-logo{position:absolute;top:26px;right:30px;display:flex;align-items:center;gap:9px;
+    background:#fff;border-radius:100px;padding:7px 14px 7px 8px;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+  .case-logo img{width:26px;height:26px;border-radius:7px;object-fit:cover;display:block}
+  .case-logo span{font-size:12.5px;font-weight:700;color:#12141a}
+  @media(max-width:600px){.case-logo{position:static;margin-bottom:18px;width:max-content}}
+  /* CONTENT MARKETING */
+  .cm-sub{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:30px;margin-bottom:22px}
+  .cm-head{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:6px}
+  .cm-head h3{font-size:22px}
+  .cm-badge{display:inline-flex;align-items:center;gap:8px;background:#fff;border-radius:100px;
+    padding:6px 13px 6px 7px;box-shadow:0 3px 12px rgba(0,0,0,.25);flex:0 0 auto}
+  .cm-badge img{width:22px;height:22px;border-radius:6px;object-fit:cover}
+  .cm-badge span{font-size:12px;font-weight:700;color:#12141a}
+  .cm-sub .lead{color:#b6bccb;font-size:14.5px;line-height:1.6;margin-bottom:18px}
+  .cm-imgs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+  .cm-imgs.two{grid-template-columns:1fr 1fr}
+  .cm-imgs.one{grid-template-columns:1fr;max-width:420px}
+  @media(max-width:600px){.cm-imgs,.cm-imgs.two{grid-template-columns:1fr}}
+  .cm-imgs img{width:100%;border-radius:12px;display:block;border:1px solid var(--line)}
+  .cm-imgs a{display:block;border-radius:12px;overflow:hidden;position:relative;transition:transform .2s,box-shadow .2s}
+  .cm-imgs a:hover .ev-go{transform:translateY(-2px);background:#fff}
+  .cm-imgs a:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,.4)}
+  .cm-cols{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  @media(max-width:600px){.cm-cols{grid-template-columns:1fr;gap:16px}}
+  .cm-cols .k{font-size:12px;color:var(--blue2);font-weight:700;letter-spacing:.04em;
+    text-transform:uppercase;margin-bottom:10px}
+  .cm-cols ul{list-style:none}
+  .cm-cols li{font-size:13.5px;color:#c3c8d6;padding:5px 0;line-height:1.4}
+  .cm-cols li.stat{font-weight:700;color:#fff;font-size:15px}
+  .cm-event{padding-top:22px;border-top:1px solid var(--line);margin-top:22px}
+  .cm-event h4{font-size:17px;margin-bottom:4px}
+  .cm-event .desc{color:var(--muted);font-size:13px;margin-bottom:14px}
+  /* event hero cards */
+  .ev-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:18px}
+  @media(max-width:700px){.ev-grid{grid-template-columns:1fr}}
+  .ev-card{border-radius:16px;overflow:hidden;border:1px solid var(--line);display:flex;flex-direction:column}
+  .ev-hero{background-size:cover;background-position:center;min-height:230px;position:relative;display:flex;flex:1}
+  .ev-hero .ev-overlay{margin-top:auto;width:100%;padding:26px 28px 22px;
+    background:linear-gradient(to top,rgba(8,10,18,.92) 0%,rgba(8,10,18,.75) 45%,rgba(8,10,18,0) 100%)}
+  .ev-overlay h4{font-size:22px;font-weight:800;color:#fff;margin-bottom:6px}
+  .ev-overlay p{font-size:13.5px;color:#d7dce6;margin-bottom:14px}
+  .ev-stats{display:flex;flex-wrap:wrap;gap:10px}
+  .ev-stats span{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);
+    color:#fff;border-radius:100px;padding:6px 14px;font-size:13px;font-weight:700;backdrop-filter:blur(4px)}
+  .ev-did{background:var(--card);padding:16px 22px;font-size:12.5px;color:#b6bccb;line-height:1.6}
+  .ev-did .k{color:var(--blue2);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-right:10px;font-size:11.5px}
+  .ev-link{position:absolute;inset:0;z-index:2}
+  .ev-go{position:absolute;top:14px;right:14px;z-index:3;width:34px;height:34px;border-radius:50%;
+    background:rgba(255,255,255,.9);color:#12141a;display:grid;place-items:center;font-size:16px;
+    font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.3);transition:transform .2s,background .2s}
+  .ev-card:hover .ev-go{transform:translateY(-2px);background:#fff}
+  .ev-card{transition:transform .2s,box-shadow .2s}
+  .ev-card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.4)}
+  .ev-hero-wide{min-height:340px;background-position:top center}
+  .ev-hero-wide .ev-overlay{background:linear-gradient(to top,rgba(8,10,18,.94) 0%,rgba(8,10,18,.8) 40%,rgba(8,10,18,.15) 100%)}
+  /* SNS showcase: two tilted phones in center, text on sides */
+  .sns-showcase{display:grid;grid-template-columns:1fr 380px 1fr;gap:20px;align-items:start;margin-top:40px}
+  .sns-side{padding-top:20px}
+  @media(max-width:900px){.sns-showcase{grid-template-columns:1fr;gap:32px}}
+  .sns-phones{display:flex;justify-content:center}
+  @media(max-width:900px){.sns-phones{order:-1}}
+  .sns-phones img{width:100%;max-width:400px;height:auto;display:block;
+    filter:drop-shadow(0 24px 50px rgba(0,0,0,.55))}
+  .sns-side .cm-head{margin-bottom:16px}
+  .sns-side .k{font-size:12px;color:var(--blue2);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px}
+  .sns-side.right{text-align:right}
+  .sns-side.right .cm-head{flex-direction:row-reverse}
+  .sns-list{list-style:none;margin-bottom:16px}
+  .sns-list li{font-size:13px;color:#c3c8d6;padding:4px 0;line-height:1.45}
+  .sns-stats{display:flex;flex-wrap:wrap;gap:8px}
+  .sns-side.right .sns-stats{justify-content:flex-end}
+  .sns-stats span{background:#1e2231;border:1px solid var(--line);border-radius:100px;
+    padding:6px 13px;font-size:13px;color:#c3c8d6}
+  .sns-stats b{color:var(--blue2);font-weight:800}
+  @media(max-width:900px){.sns-side.right,.sns-side.right .sns-stats{text-align:left;justify-content:flex-start}
+    .sns-side.right .cm-head{flex-direction:row}}
+  .case-grid{display:grid;grid-template-columns:1fr 44%;gap:30px;align-items:center}
+  @media(max-width:820px){.case-grid{grid-template-columns:1fr;gap:22px}}
+  .case h3{font-size:22px;margin-bottom:6px}
+  .case .role{color:var(--blue2);font-size:13px;font-weight:600;margin-bottom:12px}
+  .case p{color:#b6bccb;font-size:14.5px;line-height:1.65;margin-bottom:16px}
+  .case-stats{display:flex;gap:26px;flex-wrap:wrap}
+  .case-stats .s .n{font-size:24px;font-weight:800}
+  .case-stats .s .l{font-size:12px;color:var(--muted)}
+  .case-visual{border-radius:16px;overflow:hidden;background:#1e2231;aspect-ratio:16/11;position:relative}
+  .case-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
+  .proj-two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  @media(max-width:700px){.proj-two{grid-template-columns:1fr}}
+  .proj-card h3{font-size:20px;margin-bottom:8px}
+  .proj-card p{color:#b6bccb;font-size:14px;line-height:1.6;margin-bottom:14px}
+  .linkcard{display:inline-flex;align-items:center;gap:10px;margin-top:4px;background:#1e2231;
+    border:1px solid var(--line);border-radius:12px;padding:10px 16px;font-size:13.5px;
+    color:var(--ink);font-weight:600;transition:all .2s}
+  .linkcard:hover{border-color:var(--blue);background:#20263c}
+  .linkcard .u{color:var(--blue2);font-weight:500}
+  .linkcard .go{color:var(--muted)}
+  /* WORKFLOW DIAGRAM */
+  .flow{display:flex;align-items:stretch;gap:0;margin:8px 0 30px;flex-wrap:wrap}
+  .flow-step{flex:1;min-width:120px;background:var(--card);border:1px solid var(--line);
+    border-radius:14px;padding:18px 16px;position:relative}
+  .flow-step .sn{font-size:12px;color:var(--blue2);font-weight:700}
+  .flow-step .st{font-size:14.5px;font-weight:700;margin-top:6px}
+  .flow-step .sd{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4}
+  .flow-arrow{align-self:center;color:var(--blue2);font-size:18px;padding:0 8px;flex:0 0 auto}
+  @media(max-width:820px){.flow-arrow{transform:rotate(90deg);padding:6px 0;width:100%;text-align:center}
+    .flow-step{min-width:100%}}
+  /* DASHBOARD MOCK */
+  .dash-card{background:#0e1119;border:1px solid var(--line);border-radius:16px;overflow:hidden;
+    box-shadow:var(--shadow)}
+  .dash-bar{background:#12141d;border-bottom:1px solid var(--line);padding:11px 16px;
+    display:flex;align-items:center;gap:8px}
+  .dash-bar .dot{width:11px;height:11px;border-radius:50%}
+  .dash-bar .t{margin-left:12px;font-size:12.5px;color:var(--muted);font-family:"Courier New",monospace}
+  .dash-body{padding:22px}
+  .dash-scroll{height:460px;overflow-y:auto;background:#f3f4f8}
+  .dash-scroll img{width:100%;display:block}
+  .dash-scroll::-webkit-scrollbar{width:10px}
+  .dash-scroll::-webkit-scrollbar-track{background:#12141d}
+  .dash-scroll::-webkit-scrollbar-thumb{background:#3a3f52;border-radius:10px}
+  .dash-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+  @media(max-width:600px){.dash-kpis{grid-template-columns:1fr 1fr}}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .kpi .n{font-size:26px;font-weight:800}
+  .kpi .n span{color:var(--blue2)}
+  .kpi .l{font-size:11.5px;color:var(--muted);margin-top:4px}
+  .dash-lower{display:grid;grid-template-columns:1.4fr 1fr;gap:18px}
+  @media(max-width:700px){.dash-lower{grid-template-columns:1fr}}
+  .dash-panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+  .dash-panel .pt{font-size:12.5px;color:var(--muted);margin-bottom:14px;font-weight:600}
+  .bars{display:flex;flex-direction:column;gap:10px}
+  .bar-row{display:grid;grid-template-columns:96px 1fr 52px;gap:10px;align-items:center;font-size:12px}
+  .bar-row .bl{color:#c3c8d6}
+  .bar-track{height:8px;background:#1e2231;border-radius:100px;overflow:hidden;display:block}
+  .bar-fill{display:block;height:8px;background:linear-gradient(90deg,#8f9dff,#5566ff);border-radius:100px}
+  .bar-row .bv{color:var(--muted);text-align:right}
+  .toplist{display:flex;flex-direction:column;gap:9px}
+  .toplist .ti{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;
+    padding-bottom:9px;border-bottom:1px solid var(--line)}
+  .toplist .ti:last-child{border-bottom:none}
+  .toplist .tn{color:#c3c8d6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .toplist .tv{color:var(--blue2);font-weight:600;flex:0 0 auto}
+  /* VIDEO PLAYER */
+  .vstats{display:flex;gap:40px;flex-wrap:wrap;margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}
+  .vstats-top{margin-top:0;padding-top:0;border-top:none;margin-bottom:24px}
+  .vstats .s .n{font-size:28px;font-weight:800}
+  .vstats .s .l{font-size:12.5px;color:var(--muted);margin-top:2px}
+  .vwrap{display:flex;flex-direction:column;gap:16px;margin-top:18px}
+  @media(max-width:700px){.vwrap{grid-template-columns:1fr}}
+  .vmain{border-radius:14px;overflow:hidden;background:#000;border:1px solid var(--line)}
+  .vmain video,.vmain iframe{width:100%;display:block;aspect-ratio:16/9;border:0;background:#000}
+  .vlist{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media(max-width:600px){.vlist{grid-template-columns:1fr 1fr}}
+  .vitem{border-radius:10px;border:1px solid var(--line);background:var(--card);cursor:pointer;
+    transition:all .15s;overflow:hidden}
+  .vitem:hover{border-color:var(--blue)}
+  .vitem.active{border-color:var(--blue);background:#20263c}
+  .vitem img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#1e2231}
+  .vitem span{display:block;font-size:12.5px;color:#c3c8d6;font-weight:600;padding:8px 10px}
+  /* AWARDS */
+  .awards-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:44px}
+  @media(max-width:900px){.awards-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:520px){.awards-grid{grid-template-columns:1fr}}
+  .award{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px 20px}
+  .award.hero-award{grid-column:span 1;background:linear-gradient(160deg,var(--gradA),var(--gradB));border:none}
+  .award .ic{font-size:24px;margin-bottom:12px}
+  .award h4{font-size:15px;font-weight:800;margin-bottom:6px;line-height:1.25}
+  .award p{font-size:12.5px;color:var(--muted);line-height:1.5}
+  .award.hero-award h4,.award.hero-award p{color:#fff}
+  .award.hero-award p{color:rgba(255,255,255,.85)}
+  /* EDUCATION */
+  .edu-list{margin-top:40px;border-top:1px solid var(--line)}
+  .edu-row{display:grid;grid-template-columns:170px 1fr auto;gap:22px;padding:22px 4px;
+    border-bottom:1px solid var(--line);align-items:baseline}
+  .edu-row .yr{color:var(--muted);font-size:13.5px}
+  .edu-row .deg{font-size:17px;font-weight:700}
+  .edu-row .deg span{display:block;color:var(--muted);font-size:13px;font-weight:400;margin-top:3px}
+  .edu-row .note{color:var(--blue2);font-size:13px;font-weight:600}
+  @media(max-width:640px){.edu-row{grid-template-columns:1fr;gap:4px}}
+  /* SOCIAL SIDEBAR */
+  .social-rail{position:fixed;left:22px;top:50%;transform:translateY(-50%);z-index:60;
+    display:flex;flex-direction:column;gap:12px;align-items:center}
+  .social-rail::after{content:"";width:1px;height:56px;background:var(--line);margin-top:6px}
+  .social-rail a{width:42px;height:42px;border-radius:50%;background:var(--card);
+    border:1px solid var(--line);display:grid;place-items:center;color:var(--muted);
+    font-size:13px;font-weight:700;transition:all .2s;letter-spacing:0}
+  .social-rail a:hover{background:var(--blue);color:#fff;border-color:var(--blue);transform:translateY(-2px)}
+  .social-rail a svg{width:18px;height:18px;fill:currentColor}
+  @media(max-width:1100px){.social-rail{display:none}}
+  /* footer social (mobile + desktop bottom) */
+  .foot-social{display:flex;gap:12px;margin-top:22px;position:relative;z-index:2}
+  .foot-social a{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.25);display:grid;place-items:center;color:#fff;
+    font-size:13px;font-weight:700;transition:all .2s}
+  .foot-social a:hover{background:#fff;color:var(--blue)}
+  .foot-social a svg{width:18px;height:18px;fill:currentColor}
+  @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<!-- SOCIAL SIDEBAR -->
+<div class="social-rail">
+  <a href="https://xhslink.cn/o/AMWyiGlXKxn" target="_blank" rel="noopener" title="Xiaohongshu / RED" aria-label="Xiaohongshu">RED</a>
+  <a href="https://x.com/LynnHjxywangyl" target="_blank" rel="noopener" title="X" aria-label="X">
+    <svg viewBox="0 0 24 24"><path d="M18.9 1.5h3.7l-8 9.2 9.4 12.4h-7.4l-5.8-7.6-6.6 7.6H.5l8.6-9.8L0 1.5h7.6l5.2 6.9zM17.6 21h2L6.5 3.4H4.3z"/></svg>
+  </a>
+  <a href="https://www.tiktok.com/@dlz571?_r=1&amp;_t=ZS-99YtyPUeMJL" target="_blank" rel="noopener" title="TikTok" aria-label="TikTok">
+    <svg viewBox="0 0 24 24"><path d="M16.6 5.8a4.3 4.3 0 0 1-1-2.8h-3.1v12.4a2.5 2.5 0 1 1-2.5-2.5c.26 0 .5.04.74.11V9.8a5.6 5.6 0 0 0-.74-.05 5.6 5.6 0 1 0 5.6 5.6V9.1a7.3 7.3 0 0 0 4.3 1.4V7.4a4.3 4.3 0 0 1-3.3-1.6z"/></svg>
+  </a>
+  <a href="https://www.linkedin.com/in/yanlin-wang-7aba9311b/" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">
+    <svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.6h.05c.53-1 1.8-2.05 3.7-2.05 4 0 4.7 2.6 4.7 6V21h-4v-5.3c0-1.3 0-2.9-1.8-2.9s-2 1.4-2 2.8V21H9z"/></svg>
+  </a>
+  <a href="mailto:hjxywangyl@gmail.com" title="Email" aria-label="Email">
+    <svg viewBox="0 0 24 24"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm9 7.2L4.5 7v10h15V7L12 12.2zM4.9 6l7.1 4.9L19.1 6H4.9z"/></svg>
+  </a>
+</div>
+
+<nav><div class="wrap">
+  <a class="logo" href="#top"><img class="mk" src="assets/icon.png" alt="Yanlin Wang"> Yanlin Wang</a>
+  <div class="navlinks">
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#aigc">AIGC</a>
+    <a href="#content">Marketing</a>
+    <a href="#social">Social</a>
+    <a href="#skills">Skills</a>
+    <a href="#works">Works</a>
+  </div>
+  <a class="btn" href="#contact"><span class="lbl">Get in touch</span><span class="arr">→</span></a>
+</div></nav>
+
+<!-- HERO -->
+<header class="hero" id="top"><div class="wrap">
+  <div class="hero-ghost">PORTFOLIO</div>
+  <div class="hero-photo">
+    <div class="arch"><img src="assets/portrait.jpg" alt="Yanlin Wang"></div>
+    <span class="ptag t1">AIGC</span>
+    <span class="ptag t2">Content Marketing</span>
+    <span class="ptag t3">Social Media</span>
+    <span class="ptag t4">Data &amp; Analytics</span>
+  </div>
+  <div class="hero-head">
+    <div class="hey">Hey, I'm Yanlin Wang</div>
+    <h1>Content Growth<br>× AI Production</h1>
+    <div class="span">For 9+ years, I've turned complex ideas into content that grows audiences, strengthens brands, and drives business results. I combine editorial judgment with AI-enabled workflows and data.</div>
+    <div class="span" style="margin-top:14px">9+ years &nbsp;·&nbsp; ByteDance · 36Kr · Scientific American · Guokr · Yuanfudao</div>
+  </div>
+</div></header>
+
+<!-- ABOUT -->
+<section id="about"><div class="wrap">
+  <div class="eyebrow" style="justify-content:flex-start"><span class="dot"></span> About me</div>
+  <p class="about-lead">From editorial craft to AI-enabled production, I help tech brands turn complex ideas into content that scales.</p>
+  <div class="about-grid">
+    <div class="about-photo"><img src="assets/portrait_about.jpg" alt="Yanlin Wang"></div>
+    <div class="about-cards">
+      <div class="mini">
+        <h3>What I do</h3>
+        <p style="color:var(--muted);font-size:14px;line-height:1.55">Work at the intersection of content, growth marketing and AI production.</p>
+        <div class="chips">
+          <span>Content strategy</span><span>Growth marketing</span>
+          <span>AI &amp; AIGC</span><span>Data &amp; analytics</span>
+        </div>
+      </div>
+      <div class="mini">
+        <h3>Track record</h3>
+        <div style="display:flex;gap:34px;margin-top:14px">
+          <div><div class="big" style="font-size:34px">9+</div><div class="lbl">Years experience</div></div>
+          <div><div class="big" style="font-size:34px">5</div><div class="lbl">Top companies</div></div>
+        </div>
+      </div>
+      <div class="mini" style="grid-column:1/-1">
+        <h3>Who I've worked with</h3>
+        <p style="color:#b6bccb;font-size:14.5px;line-height:1.6">
+          I've delivered content for leading Chinese internet and tech-media companies including ByteDance, 36Kr and Yuanfudao. I specialise in content strategy, multi-platform growth, and building AI content agents and analytics systems that scale production.</p>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- EXPERIENCE -->
+<section id="experience"><div class="wrap">
+  <div class="center"><div class="eyebrow"><span class="dot"></span> Experience</div>
+  <h2 class="sec-title">From engineering<br>to content that scales</h2></div>
+
+  <p class="exp-summary">Nine years across leading tech-media companies, built on an engineering foundation.</p>
+  <div class="exp-logos">
+    <span class="lc"><img src="assets/logos/bytedance.png" alt="ByteDance"></span>
+    <span class="lc"><img src="assets/logos/36kr.png" alt="36Kr"></span>
+    <span class="lc"><img src="assets/logos/sciam.png" alt="Scientific American"></span>
+    <span class="lc"><img src="assets/logos/guokr.png" alt="Guokr"></span>
+    <span class="lc"><img src="assets/logos/yuanfudao.png" alt="Yuanfudao"></span>
+    <span class="ec ec-edu">🎓 Tianjin University</span>
+  </div>
+  <button class="exp-toggle" id="expToggle" aria-expanded="false">View full experience <span class="chev">▾</span></button>
+
+  <div class="exp-detail" id="expDetail">
+  <div class="exp-main">
+    <div>
+      <h3 class="exp-h">Work</h3>
+      <div class="exp-item">
+        <div class="yr">Jul 2025 — Present</div>
+        <div class="co">Yuanfudao<span>AI Content Producer</span></div>
+        <div class="kw">AI content agent, automated dashboards, 100+ short videos</div></div>
+      <div class="exp-item">
+        <div class="yr">May 2021 — Aug 2024</div>
+        <div class="co">36Kr<span>Senior Operations</span></div>
+        <div class="kw">0→1 enterprise content product, 12 regional matrices, data-led growth</div></div>
+      <div class="exp-item">
+        <div class="yr">Nov 2020 — Apr 2021</div>
+        <div class="co">ByteDance<span>Tech Content Operations Manager</span></div>
+        <div class="kw">"New Knowledge Ten Lectures", creator ecosystem, 80M+ views</div></div>
+      <div class="exp-item">
+        <div class="yr">Apr 2018 — Nov 2020</div>
+        <div class="co">Guokr<span>New Media Department Manager</span></div>
+        <div class="kw">4-account matrix, COVID-19 series, Employee of the Year</div></div>
+      <div class="exp-item">
+        <div class="yr">Jun 2017 — Apr 2018</div>
+        <div class="co">Scientific American<span>New Media / Editor (Chinese Ed.)</span></div>
+        <div class="kw">Science editing, original comic column, e-commerce conversion</div></div>
+    </div>
+    <div>
+      <h3 class="exp-h">Project</h3>
+      <div class="exp-item">
+        <div class="yr">2021 — 2025</div>
+        <div class="co">China Media Group<span>Science-Animation Project</span></div>
+        <div class="kw">100+ episodes, 50M+ views · 🏆 2022 China Dragon Award</div>
+      </div>
+      <h3 class="exp-h" style="margin-top:52px">Education</h3>
+      <div class="exp-item">
+        <div class="yr">2014 — 2017</div>
+        <div class="co">M.Eng., Environmental Engineering<span>Tianjin University</span></div>
+        <div class="kw">Recommended admission</div>
+      </div>
+      <div class="exp-item">
+        <div class="yr">2010 — 2014</div>
+        <div class="co">B.Eng., Environmental Engineering<span>Tianjin University</span></div>
+        <div class="kw">National Scholarship (top 1%)</div>
+      </div>
+    </div>
+  </div>
+  </div><!-- /exp-detail -->
+</div></section>
+
+<!-- AIGC WORKFLOW -->
+<section id="aigc"><div class="wrap">
+  <div class="cap-head"><span class="cn">01</span><h2>Scaling Content Production with AI Agents</h2></div>
+  <p class="cap-lead"><strong style="color:#e6e9f0;font-weight:800">Self-built AI systems</strong> that power short-video production at millions of views.</p>
+
+  <!-- case 1: stats + two project cards + video -->
+  <div class="case">
+    <div class="case-logo"><img src="assets/logos/yuanfudao.png" alt="Yuanfudao"><span>Yuanfudao</span></div>
+    <div class="vstats vstats-top">
+      <div class="s"><div class="n">100+</div><div class="l">Short-video episodes</div></div>
+      <div class="s"><div class="n">4M+</div><div class="l">Cumulative UV</div></div>
+      <div class="s"><div class="n">100K+</div><div class="l">Avg views per video</div></div>
+    </div>
+    <div class="proj-two">
+      <div class="proj-card">
+        <h3>Content-Creation Agent</h3>
+        <p>An open-source agent that takes a video from idea to director-ready deliverables — topic research, scripting, storyboards and titles.</p>
+        <a class="linkcard" href="https://github.com/hjxywangyl/explainer-video-scripts" target="_blank" rel="noopener"><span class="go">↗</span> github.com/hjxywangyl/<span class="u">explainer-video-scripts</span></a>
+      </div>
+      <div class="proj-card">
+        <h3>AI Script-Writing Tool</h3>
+        <p>A web app where content teams pull topics from sources, draft scripts with AI, and fact-check every claim against real reporting.</p>
+        <a class="linkcard" href="https://script-workshop.pages.dev/" target="_blank" rel="noopener"><span class="go">↗</span> <span class="u">script-workshop.pages.dev</span></a>
+      </div>
+    </div>
+    <!-- video player + list -->
+    <div class="vwrap">
+      <div class="vmain">
+        <video id="vplayer" controls playsinline preload="none"
+          poster="assets/video/glassfrog-cover.jpg" src="assets/video/glassfrog.mp4"></video>
+      </div>
+      <div class="vlist">
+        <div class="vitem active" data-src="assets/video/glassfrog.mp4" data-poster="assets/video/glassfrog-cover.jpg">
+          <img src="assets/video/glassfrog-cover.jpg" alt=""><span>Glass Frog: I'm invisible!</span></div>
+        <div class="vitem" data-src="assets/video/porcupine.mp4" data-poster="assets/video/porcupine-cover.jpg">
+          <img src="assets/video/porcupine-cover.jpg" alt=""><span>Porcupine: Don't bite!</span></div>
+        <div class="vitem" data-src="assets/video/avocado.mp4" data-poster="assets/video/avocado-cover.jpg">
+          <img src="assets/video/avocado-cover.jpg" alt=""><span>Fruits full of oil</span></div>
+        <div class="vitem" data-src="assets/video/cochineal.mp4" data-poster="assets/video/cochineal-cover.jpg">
+          <img src="assets/video/cochineal-cover.jpg" alt=""><span>Pigments from insects</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- case 2: automated performance system -->
+  <div class="case">
+    <h3>Automated Content-Performance System</h3>
+    <p>An automated analytics system tracking a 290-episode content library across 11 series, powering topic decisions, content optimisation and team collaboration.</p>
+    <div class="dash-card" style="margin-top:20px">
+      <div class="dash-bar">
+        <span class="dot" style="background:#ff5f57"></span><span class="dot" style="background:#febc2e"></span><span class="dot" style="background:#28c840"></span>
+        <span class="t">content-performance · dashboard</span>
+      </div>
+      <div class="dash-scroll">
+        <img src="assets/dashboard.jpg" alt="Content-performance dashboard">
+      </div>
+    </div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--muted)">Automated content-performance system · SQL / GA / Excel-VBA · scroll to explore</div>
+  </div>
+</div></section>
+
+<!-- CONTENT MARKETING -->
+<section id="content" style="background:var(--bg2)"><div class="wrap">
+  <div class="cap-head"><span class="cn">02</span><h2>Content Marketing</h2></div>
+  <p class="cap-lead">Turning content into IP, campaigns and commercial growth. I build content programs that connect audience needs, brand messages and business goals across technology, science and business media.</p>
+
+  <!-- IP Building -->
+  <div class="cm-sub">
+    <div class="cm-head">
+      <h3>IP Building</h3>
+      <span class="cm-badge"><img src="assets/logos/bytedance.png" alt="ByteDance"><span>ByteDance</span></span>
+    </div>
+    <p class="lead">Expert knowledge, packaged into repeatable content IP. Courseware content project — "New Knowledge Ten Lectures".</p>
+    <div class="cm-imgs two">
+      <a href="https://www.toutiao.com/video/6933498291657114119/" target="_blank" rel="noopener"><img src="assets/cm/ip2.jpg" alt="Ke Jie × AI episode"><span class="ev-go">↗</span></a>
+      <a href="https://www.toutiao.com/video/6955763451088077343/" target="_blank" rel="noopener"><img src="assets/cm/ip3.jpg" alt="New Knowledge Ten Lectures episode"><span class="ev-go">↗</span></a>
+    </div>
+    <div class="cm-cols">
+      <div><div class="k">What I did</div>
+        <ul><li>Topic planning</li><li>Expert coordination</li><li>Courseware structure</li><li>Script &amp; content packaging</li><li>Platform distribution</li></ul></div>
+      <div><div class="k">Impact</div>
+        <ul><li class="stat">80M+ views</li><li>Repeatable content formats</li><li>Complex topics made accessible</li></ul></div>
+    </div>
+  </div>
+  <!-- Event Campaigns -->
+  <div class="cm-sub">
+    <div class="cm-head">
+      <h3>Event Campaigns</h3>
+      <span class="cm-badge"><img src="assets/logos/36kr.png" alt="36Kr"><span>36Kr</span></span>
+    </div>
+    <p class="lead">Consumer campaigns and B2B events, built through content and channels.</p>
+
+    <div class="ev-grid">
+    <div class="ev-card">
+      <div class="ev-hero" style="background-image:url('assets/cm/welfare-hero.jpg')">
+        <a class="ev-link" href="https://36kr.com/p/2292865607424005" target="_blank" rel="noopener" aria-label="View Unexpected Welfare Bureau"></a>
+        <span class="ev-go">↗</span>
+        <div class="ev-overlay">
+          <h4>Unexpected Welfare Bureau</h4>
+          <p>Consumer brand campaign built around blind-box giveaways.</p>
+          <div class="ev-stats"><span>200K UV</span><span>1,400+ joined</span><span>100+ clients</span></div>
+        </div>
+      </div>
+      <div class="ev-did"><span class="k">What I did</span>
+        Campaign concept · Client recruitment · Brand selection · Promotional copy · Visual planning · User sign-up flow</div>
+    </div>
+
+    <div class="ev-card">
+      <div class="ev-hero" style="background-image:url('assets/cm/wise.jpg')">
+        <a class="ev-link" href="https://topics.36kr.com/topic/1763696459767173" target="_blank" rel="noopener" aria-label="View WISE New Trend Conference"></a>
+        <span class="ev-go">↗</span>
+        <div class="ev-overlay">
+          <h4>WISE New Trend Conference</h4>
+          <p>B2B industry event for Greater Bay Area innovation.</p>
+          <div class="ev-stats"><span>50M+ reach</span><span>150+ features</span><span>1M+ heat</span></div>
+        </div>
+      </div>
+      <div class="ev-did"><span class="k">What I did</span>
+        Online communication plan · Content calendar · Event page messaging · Promotional channels · Host script · Post-event assets</div>
+    </div>
+    </div>
+  </div>
+
+  <!-- Commercial Content Product -->
+  <div class="cm-sub">
+    <div class="cm-head">
+      <h3>Commercial Content Product</h3>
+      <span class="cm-badge"><img src="assets/logos/36kr.png" alt="36Kr"><span>36Kr</span></span>
+    </div>
+    <p class="lead">36Kr's media resources, turned into a scalable B2B marketing service.</p>
+    <div class="ev-card">
+      <div class="ev-hero ev-hero-wide" style="background-image:url('assets/cm/enterprise.jpg')">
+        <a class="ev-link" href="https://q.36kr.com" target="_blank" rel="noopener" aria-label="View 36Kr enterprise product"></a>
+        <span class="ev-go">↗</span>
+        <div class="ev-overlay">
+          <h4>36Kr Enterprise Account</h4>
+          <p>Media resources turned into a scalable B2B marketing product — built from scratch.</p>
+          <div class="ev-stats"><span>1,000+ clients</span><span>RMB 1M+ revenue</span><span>0→1 product</span></div>
+        </div>
+      </div>
+      <div class="ev-did"><span class="k">What I did</span>
+        Product structure · Pricing logic · Promotion plan · Lead flow · Sales handoff · Client delivery</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- SNS / SOCIAL MEDIA -->
+<section id="social"><div class="wrap">
+  <div class="cap-head"><span class="cn">03</span><h2>Social Media</h2></div>
+  <p class="cap-lead">Multi-platform matrices and viral campaigns, grown with real audience data.</p>
+
+  <div class="sns-showcase">
+    <!-- left: Guokr -->
+    <div class="sns-side left">
+      <div class="cm-head"><h3>Guokr</h3>
+        <span class="cm-badge"><img src="assets/logos/guokr.png" alt="Guokr"><span>Guokr</span></span></div>
+      <div class="k">Actions taken</div>
+      <ul class="sns-list"><li>Viral content strategy around trending science</li><li>Interactive campaigns &amp; real-time hotspot series</li><li>Data-driven content optimisation</li></ul>
+      <div class="sns-stats">
+        <span><b>430K+</b> / 6 mon</span><span><b>10M+</b> total</span><span><b>300M+</b> views</span>
+      </div>
+    </div>
+    <!-- center: two tilted phones -->
+    <div class="sns-phones">
+      <img src="assets/sns/phones.png" alt="Guokr & 36Kr social accounts">
+    </div>
+    <!-- right: 36Kr -->
+    <div class="sns-side right">
+      <div class="cm-head"><h3>36Kr</h3>
+        <span class="cm-badge"><img src="assets/logos/36kr.png" alt="36Kr"><span>36Kr</span></span></div>
+      <div class="k">Actions taken</div>
+      <ul class="sns-list"><li>Content marketing plans</li><li>Training, manuals &amp; content assessment</li><li>Low-budget user-acquisition campaigns</li></ul>
+      <div class="sns-stats">
+        <span><b>76</b> accounts</span><span><b>450K+</b> / 2 yrs</span>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- SKILLS / SERVICES -->
+<section id="skills" style="background:var(--bg2)"><div class="wrap">
+  <div class="center"><div class="eyebrow"><span class="dot"></span> Skills</div>
+  <h2 class="sec-title">A toolkit that spans<br>content, growth &amp; AI</h2></div>
+  <div class="skill-rows">
+    <div class="skill-row">
+      <div class="sk-cat">AI &amp; AIGC</div>
+      <div class="sk-tags"><span>ChatGPT</span><span>Claude Code</span><span>Codex</span><span>DeepSeek</span><span>Midjourney</span><span>Runway</span><span>AI agents</span><span>Automation</span></div>
+    </div>
+    <div class="skill-row">
+      <div class="sk-cat">Data &amp; Analytics</div>
+      <div class="sk-tags"><span>SQL</span><span>Google Analytics</span><span>Excel / VBA</span><span>Dashboards</span><span>SEO &amp; SEM</span><span>Google Data Analytics Cert</span></div>
+    </div>
+    <div class="skill-row">
+      <div class="sk-cat">Content &amp; Design</div>
+      <div class="sk-tags"><span>PS</span><span>AI</span><span>PR</span><span>AE</span><span>Illustration</span><span>Short-video</span><span>Animation</span></div>
+    </div>
+    <div class="skill-row">
+      <div class="sk-cat">Languages</div>
+      <div class="sk-tags"><span>Chinese · native</span><span>English · IELTS 6.5</span><span>Japanese · N2</span></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- COPYRIGHT & ILLUSTRATION -->
+<section id="works"><div class="wrap-full">
+  <div class="wrap"><div class="center"><div class="eyebrow"><span class="dot"></span> Copyright &amp; Illustration</div>
+  <h2 class="sec-title">Original works</h2>
+  <p style="color:var(--muted);max-width:580px;margin:14px auto 0">Illustration, comics and original content I created and hold rights to.</p></div></div>
+
+  <!-- Row 1: Illustration & Comic, scrolls left -->
+  <div class="marquee">
+    <div class="mq-track mq-left">
+      <a class="mq-card" href="https://mp.weixin.qq.com/s/zKsGk4igxTwWqgJFiRujMQ" target="_blank" rel="noopener"><img src="assets/works/w1.jpg" alt=""><span class="mq-cap">WikiHow</span></a>
+      <a class="mq-card" href="https://mp.weixin.qq.com/s/uoR4dUk6ADbEot9qhIMRtA" target="_blank" rel="noopener"><img src="assets/works/w2.jpg" alt=""><span class="mq-cap">The orientation of the squat toilet</span></a>
+      <a class="mq-card" href="https://mp.weixin.qq.com/s/ZkJyRXTI4veR2ubqHHIAMg" target="_blank" rel="noopener"><img src="assets/works/w3.jpg" alt=""><span class="mq-cap">A city with abundant rainfall</span></a>
+      <a class="mq-card" href="https://mp.weixin.qq.com/s/XqNbr_Nfq1N3njxFjMXTLQ" target="_blank" rel="noopener"><img src="assets/works/w4.jpg" alt=""><span class="mq-cap">The deepest hole in the world?</span></a>
+      <a class="mq-card" href="https://mp.weixin.qq.com/s/XEvNZPZAi5_svu9eDlJv8A" target="_blank" rel="noopener"><img src="assets/works/w5.jpg" alt=""><span class="mq-cap">Quantum supremacy</span></a>
+      <a class="mq-card" href="https://mp.weixin.qq.com/s/jaVdlsDoHvwmThwnCxvK9A" target="_blank" rel="noopener"><img src="assets/works/w6.jpg" alt=""><span class="mq-cap">Beware of the microplastics in your body</span></a>
+      <!-- duplicate for seamless loop -->
+      <a class="mq-card" href="https://mp.weixin.qq.com/s/zKsGk4igxTwWqgJFiRujMQ" target="_blank" rel="noopener" aria-hidden="true"><img src="assets/works/w1.jpg" alt=""><span class="mq-cap">WikiHow</span></a>
+      <a class="mq-card" href="https://mp.weixin.qq.com/s/uoR4dUk6ADbEot9qhIMRtA" target="_blank" rel="noopener" aria-hidden="true"><img src="assets/works/w2.jpg" alt=""><span class="mq-cap">The orientation of the squat toilet</span></a>
+      <a class="mq-card" href="https://mp.weixin.qq.com/s/ZkJyRXTI4veR2ubqHHIAMg" target="_blank" rel="noopener" aria-hidden="true"><img src="assets/works/w3.jpg" alt=""><span class="mq-cap">A city with abundant rainfall</span></a>
+      <a class="mq-card" href="https://mp.weixin.qq.com/s/XqNbr_Nfq1N3njxFjMXTLQ" target="_blank" rel="noopener" aria-hidden="true"><img src="assets/works/w4.jpg" alt=""><span class="mq-cap">The deepest hole in the world?</span></a>
+      <a class="mq-card" href="https://mp.weixin.qq.com/s/XEvNZPZAi5_svu9eDlJv8A" target="_blank" rel="noopener" aria-hidden="true"><img src="assets/works/w5.jpg" alt=""><span class="mq-cap">Quantum supremacy</span></a>
+      <a class="mq-card" href="https://mp.weixin.qq.com/s/jaVdlsDoHvwmThwnCxvK9A" target="_blank" rel="noopener" aria-hidden="true"><img src="assets/works/w6.jpg" alt=""><span class="mq-cap">Beware of the microplastics in your body</span></a>
+    </div>
+  </div>
+
+  <!-- Row 2: Copyright, scrolls right -->
+  <div class="marquee">
+    <div class="mq-track mq-right">
+      <a class="mq-card" href="https://mp.weixin.qq.com/s?__biz=MTg1MjI3MzY2MQ==&amp;mid=2652122377&amp;idx=1&amp;sn=c2fd8818b583c5c02f8472dd9bc35a08" target="_blank" rel="noopener"><img src="assets/works/w7.jpg" alt=""><span class="mq-cap">Living to 100: rethink your retirement plan</span></a>
+      <a class="mq-card" href="https://mp.weixin.qq.com/s?__biz=MTg1MjI3MzY2MQ==&amp;mid=2652127140&amp;idx=1&amp;sn=fcf5837a83fa964ad7ccd0eed0b97833" target="_blank" rel="noopener"><img src="assets/works/w8.jpg" alt=""><span class="mq-cap">9 bizarre inventions: guess their use?</span></a>
+      <a class="mq-card" href="https://mp.weixin.qq.com/s?__biz=MzA5MjMzOTY4Mw==&amp;mid=2653065171&amp;idx=1&amp;sn=12ed5808001f16bdcc5ae3e6fc67fb2e" target="_blank" rel="noopener"><img src="assets/works/w9.jpg" alt=""><span class="mq-cap">If animals had a Spring Festival travel rush</span></a>
+      <a class="mq-card" href="https://mp.weixin.qq.com/s?__biz=MTg1MjI3MzY2MQ==&amp;mid=2651860202&amp;idx=1&amp;sn=5bf2ecfb9341a6df146c8d67ac851478" target="_blank" rel="noopener"><img src="assets/works/w10.jpg" alt=""><span class="mq-cap">2050's hottest gadget: the universal charger?</span></a>
+      <a class="mq-card" href="https://mp.weixin.qq.com/s?__biz=MzA5MjMzOTY4Mw==&amp;mid=2653092313&amp;idx=1&amp;sn=4b3ca5563e7fa5603f20a862a7376eaa" target="_blank" rel="noopener"><img src="assets/works/w11.jpg" alt=""><span class="mq-cap">Celebrated on my day, yet bound in chains</span></a>
+      <a class="mq-card" href="https://m.weibo.cn/search?containerid=231522type%3D1%26t%3D10%26q%3D%23%E6%96%B0%E9%97%BB%E8%B6%85%E9%93%BE%E6%8E%A5%23&amp;extparam=%23%E6%96%B0%E9%97%BB%E8%B6%85%E9%93%BE%E6%8E%A5%23" target="_blank" rel="noopener"><img src="assets/works/w12.jpg" alt=""><span class="mq-cap">100+ animations with National Channel, 50M+ views</span></a>
+      <a class="mq-card" href="https://mp.weixin.qq.com/s?__biz=MTg1MjI3MzY2MQ==&amp;mid=2652122377&amp;idx=1&amp;sn=c2fd8818b583c5c02f8472dd9bc35a08" target="_blank" rel="noopener" aria-hidden="true"><img src="assets/works/w7.jpg" alt=""><span class="mq-cap">Living to 100: rethink your retirement plan</span></a>
+      <a class="mq-card" href="https://mp.weixin.qq.com/s?__biz=MTg1MjI3MzY2MQ==&amp;mid=2652127140&amp;idx=1&amp;sn=fcf5837a83fa964ad7ccd0eed0b97833" target="_blank" rel="noopener" aria-hidden="true"><img src="assets/works/w8.jpg" alt=""><span class="mq-cap">9 bizarre inventions: guess their use?</span></a>
+      <a class="mq-card" href="https://mp.weixin.qq.com/s?__biz=MzA5MjMzOTY4Mw==&amp;mid=2653065171&amp;idx=1&amp;sn=12ed5808001f16bdcc5ae3e6fc67fb2e" target="_blank" rel="noopener" aria-hidden="true"><img src="assets/works/w9.jpg" alt=""><span class="mq-cap">If animals had a Spring Festival travel rush</span></a>
+      <a class="mq-card" href="https://mp.weixin.qq.com/s?__biz=MTg1MjI3MzY2MQ==&amp;mid=2651860202&amp;idx=1&amp;sn=5bf2ecfb9341a6df146c8d67ac851478" target="_blank" rel="noopener" aria-hidden="true"><img src="assets/works/w10.jpg" alt=""><span class="mq-cap">2050's hottest gadget: the universal charger?</span></a>
+      <a class="mq-card" href="https://mp.weixin.qq.com/s?__biz=MzA5MjMzOTY4Mw==&amp;mid=2653092313&amp;idx=1&amp;sn=4b3ca5563e7fa5603f20a862a7376eaa" target="_blank" rel="noopener" aria-hidden="true"><img src="assets/works/w11.jpg" alt=""><span class="mq-cap">Celebrated on my day, yet bound in chains</span></a>
+      <a class="mq-card" href="https://m.weibo.cn/search?containerid=231522type%3D1%26t%3D10%26q%3D%23%E6%96%B0%E9%97%BB%E8%B6%85%E9%93%BE%E6%8E%A5%23&amp;extparam=%23%E6%96%B0%E9%97%BB%E8%B6%85%E9%93%BE%E6%8E%A5%23" target="_blank" rel="noopener" aria-hidden="true"><img src="assets/works/w12.jpg" alt=""><span class="mq-cap">100+ animations with National Channel, 50M+ views</span></a>
+    </div>
+  </div>
+</div></section>
+
+<!-- CONTACT / CTA + FOOTER -->
+<section id="contact"><div class="wrap">
+  <div class="cta">
+    <h2>Ready to grow something great together?</h2>
+    <div class="contact">
+      <span>📞 +852 4694 9226</span>
+      <span>✉️ hjxywangyl@gmail.com</span>
+    </div>
+    <a class="btn light" href="mailto:hjxywangyl@gmail.com"><span class="lbl">Get in touch</span><span class="arr">→</span></a>
+    <div class="foot-social">
+      <a href="https://xhslink.cn/o/AMWyiGlXKxn" target="_blank" rel="noopener" title="Xiaohongshu / RED">RED</a>
+      <a href="https://x.com/LynnHjxywangyl" target="_blank" rel="noopener" title="X">
+        <svg viewBox="0 0 24 24"><path d="M18.9 1.5h3.7l-8 9.2 9.4 12.4h-7.4l-5.8-7.6-6.6 7.6H.5l8.6-9.8L0 1.5h7.6l5.2 6.9zM17.6 21h2L6.5 3.4H4.3z"/></svg></a>
+      <a href="https://www.tiktok.com/@dlz571?_r=1&amp;_t=ZS-99YtyPUeMJL" target="_blank" rel="noopener" title="TikTok">
+        <svg viewBox="0 0 24 24"><path d="M16.6 5.8a4.3 4.3 0 0 1-1-2.8h-3.1v12.4a2.5 2.5 0 1 1-2.5-2.5c.26 0 .5.04.74.11V9.8a5.6 5.6 0 0 0-.74-.05 5.6 5.6 0 1 0 5.6 5.6V9.1a7.3 7.3 0 0 0 4.3 1.4V7.4a4.3 4.3 0 0 1-3.3-1.6z"/></svg></a>
+      <a href="https://www.linkedin.com/in/yanlin-wang-7aba9311b/" target="_blank" rel="noopener" title="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.6h.05c.53-1 1.8-2.05 3.7-2.05 4 0 4.7 2.6 4.7 6V21h-4v-5.3c0-1.3 0-2.9-1.8-2.9s-2 1.4-2 2.8V21H9z"/></svg></a>
+      <a href="mailto:hjxywangyl@gmail.com" title="Email">
+        <svg viewBox="0 0 24 24"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm9 7.2L4.5 7v10h15V7L12 12.2zM4.9 6l7.1 4.9L19.1 6H4.9z"/></svg></a>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Yanlin Wang — Portfolio</span>
+      <span>Content Growth · Social &amp; Marketing · AI Production</span>
+    </div>
+  </div>
+</div></section>
+
+<script>
+  (function(){
+    var player=document.getElementById('vplayer');
+    if(!player) return;
+    document.querySelectorAll('.vitem').forEach(function(it){
+      it.addEventListener('click',function(){
+        document.querySelectorAll('.vitem').forEach(function(x){x.classList.remove('active')});
+        it.classList.add('active');
+        player.src=it.dataset.src; player.poster=it.dataset.poster;
+        player.load(); player.play().catch(function(){});
+      });
+    });
+  })();
+  (function(){
+    var btn=document.getElementById('expToggle'), d=document.getElementById('expDetail');
+    if(!btn||!d) return;
+    btn.addEventListener('click',function(){
+      var open=d.classList.toggle('open');
+      btn.classList.toggle('open',open);
+      btn.setAttribute('aria-expanded',open);
+      btn.firstChild.textContent=open?'Hide full experience ':'View full experience ';
+    });
+  })();
+</script>
+</body>
+</html>
