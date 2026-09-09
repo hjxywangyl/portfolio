@@ -1,24 +1,29 @@
-# Yanlin Wang — Portfolio
+# 王妍琳 — 作品集（中文版）
 
-Personal portfolio site. Single-page, static HTML (inline CSS/JS, no build step).
+个人作品集网站。单页、纯静态 HTML（内联 CSS/JS，无需构建）。
 
-**Positioning:** Content Growth × AI Production — content marketing, social media and AIGC workflows for tech companies.
+**定位：** 内容增长 × AI 生产 —— 面向科技公司的内容营销、社媒运营与 AIGC 工作流。
 
-## Sections
+## 页面结构
 
-Hero · About · Experience (collapsible, company logo wall) · 01 AIGC (self-built AI content agent + script tool, YouTube video showcase, real content-performance dashboard) · 02 Content Marketing (IP building, event campaigns, commercial product) · 03 Social Media (Guokr & 36Kr) · Skills · Copyright & Illustration (dual-row marquee, linked works) · Contact
+首屏 · 关于 · 经历（可展开、公司 logo 墙）· 01 AIGC（自研 AI 内容 agent + 脚本工具、视频展示、真实内容数据看板）· 02 内容营销（IP 打造、活动营销、商业产品）· 03 社交媒体（果壳 & 36氪）· 技能 · 版权与插画（双排跑马灯、作品链接）· 联系方式
 
-## Deploy
+## 语言
 
-Static site. Serve the repo root; `index.html` is the entry point. Works on GitHub Pages / Cloudflare Pages.
+- `index.html` —— 中文版（默认入口）
+- `index.en.html` —— 英文版
+- 两版右上角均有 `中文 / EN` 切换入口，互相跳转
 
-Note: the AIGC video section embeds YouTube — videos play once the site is served over http/https (not from a local file://).
+## 部署
 
-## Assets
+静态站点。以仓库根目录作为站点根，`index.html` 为入口页。可直接部署到 GitHub Pages / Cloudflare Pages。
 
-- `assets/works/` — illustration & content thumbnails (linked to articles)
-- `assets/cm/` — content-marketing case visuals
-- `assets/sns/` — social-media phone mockup
-- `assets/logos/` — company logos
-- `assets/dashboard.jpg` — content-performance dashboard screenshot
-- `assets/icon.png` — site icon / favicon
+## 资源目录
+
+- `assets/works/` —— 插画与内容缩略图（链接到文章）
+- `assets/cm/` —— 内容营销案例图
+- `assets/sns/` —— 社媒手机样机图
+- `assets/logos/` —— 公司 logo
+- `assets/video/` —— 短视频与封面
+- `assets/dashboard.jpg` —— 内容数据看板截图
+- `assets/icon.png` —— 站点图标 / favicon
