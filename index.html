@@ -272,6 +272,20 @@
   .cm-cols ul{list-style:none}
   .cm-cols li{font-size:13.5px;color:#c3c8d6;padding:5px 0;line-height:1.4}
   .cm-cols li.stat{font-weight:700;color:#fff;font-size:15px}
+  /* IP block: image + caption columns, horizontal did row */
+  .ip-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+  @media(max-width:600px){.ip-grid{grid-template-columns:1fr;gap:22px}}
+  .ip-col a{display:block;position:relative;border-radius:12px;overflow:hidden;transition:transform .2s,box-shadow .2s}
+  .ip-col a img{width:100%;display:block;border:1px solid var(--line);border-radius:12px}
+  .ip-col a:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,.4)}
+  .ip-col a:hover .ev-go{transform:translateY(-2px);background:#fff}
+  .ip-cap{margin-top:12px;font-size:14.5px;font-weight:700;color:#fff;line-height:1.45}
+  .ip-did-row{margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
+  .ip-did-row .k{font-size:12px;color:var(--blue2);font-weight:700;letter-spacing:.04em;
+    text-transform:uppercase;margin-bottom:10px}
+  .ip-did-tags{display:flex;flex-wrap:wrap;gap:9px}
+  .ip-did-tags span{background:#1e2231;border:1px solid var(--line);border-radius:100px;
+    padding:7px 15px;font-size:13px;color:#c3c8d6;font-weight:500}
   .cm-event{padding-top:22px;border-top:1px solid var(--line);margin-top:22px}
   .cm-event h4{font-size:17px;margin-bottom:4px}
   .cm-event .desc{color:var(--muted);font-size:13px;margin-bottom:14px}
@@ -461,6 +475,15 @@
   .social-rail button.qr-open:hover{background:var(--blue);color:#fff;border-color:var(--blue);transform:translateY(-2px)}
   .foot-social button.qr-open{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:15px;font-weight:800;cursor:pointer;transition:all .2s;font-family:inherit;display:grid;place-items:center}
   .foot-social button.qr-open:hover{background:#fff;color:var(--blue)}
+  .social-rail button.qr-open svg,.foot-social button.qr-open svg{width:19px;height:19px;display:block;fill:currentColor}
+  .social-rail a svg,.foot-social a svg{display:block}
+  /* single-color logo icons (masked PNGs share the link's currentColor) */
+  .snsicon{display:inline-block;background-color:currentColor;
+    -webkit-mask:center/contain no-repeat;mask:center/contain no-repeat}
+  .snsicon.channels{width:22px;height:19px;
+    -webkit-mask-image:url(assets/sns/channels-logo.png);mask-image:url(assets/sns/channels-logo.png)}
+  .snsicon.xhs{width:27px;height:12px;
+    -webkit-mask-image:url(assets/sns/xiaohongshu-logo.png);mask-image:url(assets/sns/xiaohongshu-logo.png)}
   /* qr modal */
   .qr-mask{position:fixed;inset:0;background:rgba(0,0,0,.74);z-index:200;display:none;place-items:center;padding:20px;cursor:zoom-out}
   .qr-mask.open{display:grid}
@@ -472,9 +495,9 @@
 
 <!-- SOCIAL SIDEBAR -->
 <div class="social-rail">
-  <a href="https://xhslink.cn/o/AMWyiGlXKxn" target="_blank" rel="noopener" title="小红书" aria-label="小红书">RED</a>
-  <button type="button" class="qr-open" data-qr="channels" title="视频号" aria-label="视频号">视</button>
-  <a href="https://v.douyin.com/23tMvspsFSI/" target="_blank" rel="noopener" title="抖音" aria-label="抖音">抖</a>
+  <a href="https://xhslink.cn/o/AMWyiGlXKxn" target="_blank" rel="noopener" title="小红书" aria-label="小红书"><i class="snsicon xhs"></i></a>
+  <button type="button" class="qr-open" data-qr="channels" title="视频号" aria-label="视频号"><i class="snsicon channels"></i></button>
+  <a href="https://v.douyin.com/23tMvspsFSI/" target="_blank" rel="noopener" title="抖音" aria-label="抖音"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 1 1-2.59-2.59c.26 0 .5.04.74.11V9.8a5.7 5.7 0 0 0-.74-.05 5.68 5.68 0 1 0 5.68 5.68V9.01a7.03 7.03 0 0 0 4.11 1.32V7.27a4.28 4.28 0 0 1-3.05-1.45z"/></svg></a>
   <a href="mailto:hjxywangyl@126.com" title="邮箱" aria-label="邮箱">
     <svg viewBox="0 0 24 24"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm9 7.2L4.5 7v10h15V7L12 12.2zM4.9 6l7.1 4.9L19.1 6H4.9z"/></svg>
   </a>
@@ -536,7 +559,7 @@
     <span class="lc"><img src="assets/logos/sciam.png" alt="环球科学"></span>
     <span class="lc"><img src="assets/logos/guokr.png" alt="果壳"></span>
     <span class="lc"><img src="assets/logos/yuanfudao.png" alt="猿辅导"></span>
-    <span class="ec ec-edu">🎓 天津大学工学硕士</span>
+    <span class="ec ec-edu">🎓 天津大学工学本硕</span>
   </div>
   <button class="exp-toggle" id="expToggle" aria-expanded="false">查看完整经历 <span class="chev">▾</span></button>
 
@@ -603,7 +626,7 @@
     <div class="proj-two">
       <div class="proj-card">
         <h3>全链路内容创作 Agent</h3>
-        <p>一套开源的内容创作 agent 系统，MIT 协议公开在 GitHub。一个总控 agent 调度多个专项 skill，把一条视频从粗略选题带到能直接开拍的交付物，覆盖选题、大纲、脚本、配音稿、分镜和封面标题。</p>
+        <p>一套开源的内容创作 agent 系统，调度多个专项 skill，把一条视频从粗略选题带到能直接开拍的交付物，覆盖选题、大纲、脚本、配音稿、分镜和封面标题。</p>
         <a class="linkcard" href="https://github.com/hjxywangyl/explainer-video-scripts" target="_blank" rel="noopener"><span class="go">↗</span> github.com/hjxywangyl/<span class="u">explainer-video-scripts</span></a>
       </div>
       <div class="proj-card">
@@ -657,15 +680,19 @@
       <span class="cm-badge"><img src="assets/logos/bytedance.png" alt="字节跳动"><span>字节跳动</span></span>
     </div>
     <p class="lead">把专家知识打包成可复制的内容 IP，课程内容项目《新知十讲》。</p>
-    <div class="cm-imgs two">
-      <a href="https://www.toutiao.com/video/6933498291657114119/" target="_blank" rel="noopener"><img src="assets/cm/ip2.jpg" alt="柯洁聊 AI"><span class="ev-go">↗</span></a>
-      <a href="https://www.toutiao.com/video/6955763451088077343/" target="_blank" rel="noopener"><img src="assets/cm/ip3.jpg" alt="《新知十讲》科技系列"><span class="ev-go">↗</span></a>
+    <div class="ip-grid">
+      <div class="ip-col">
+        <a href="https://www.toutiao.com/video/6933498291657114119/" target="_blank" rel="noopener"><img src="assets/cm/ip2.jpg" alt="柯洁聊 AI"><span class="ev-go">↗</span></a>
+        <div class="ip-cap">柯洁聊 AI · 100万+ 浏览量</div>
+      </div>
+      <div class="ip-col">
+        <a href="https://www.toutiao.com/video/6955763451088077343/" target="_blank" rel="noopener"><img src="assets/cm/ip3.jpg" alt="《新知十讲》科技系列"><span class="ev-go">↗</span></a>
+        <div class="ip-cap">《新知十讲》科技系列 · 23 集 · 7,000万+ 浏览量</div>
+      </div>
     </div>
-    <div class="cm-cols">
-      <div><div class="k">代表内容</div>
-        <ul><li class="stat">柯洁聊 AI · 100万+ 浏览量</li><li class="stat">《新知十讲》科技系列 · 23 集 · 7,000万+ 浏览量</li></ul></div>
-      <div><div class="k">我做了什么</div>
-        <ul><li>选题策划</li><li>专家对接</li><li>课程结构</li><li>脚本与内容包装</li><li>平台分发</li></ul></div>
+    <div class="ip-did-row">
+      <div class="k">我做了什么</div>
+      <div class="ip-did-tags"><span>选题策划</span><span>专家对接</span><span>课程结构</span><span>脚本与内容包装</span><span>平台分发</span></div>
     </div>
   </div>
 
@@ -724,7 +751,7 @@
         </div>
       </div>
       <div class="ev-did"><span class="k">我做了什么</span>
-        市场定价策略 · 线索沉淀与客户转化 · 短信 / 电子邮件营销 · 客户交付</div>
+        市场定价策略 · 线索沉淀与客户转化 · 客户交付</div>
     </div>
   </div>
 </div></section>
@@ -834,9 +861,9 @@
     </div>
     <a class="btn light" href="mailto:hjxywangyl@126.com"><span class="lbl">联系我</span><span class="arr">→</span></a>
     <div class="foot-social">
-      <a href="https://xhslink.cn/o/AMWyiGlXKxn" target="_blank" rel="noopener" title="小红书">RED</a>
-      <button type="button" class="qr-open" data-qr="channels" title="视频号">视</button>
-      <a href="https://v.douyin.com/23tMvspsFSI/" target="_blank" rel="noopener" title="抖音">抖</a>
+      <a href="https://xhslink.cn/o/AMWyiGlXKxn" target="_blank" rel="noopener" title="小红书"><i class="snsicon xhs"></i></a>
+      <button type="button" class="qr-open" data-qr="channels" title="视频号"><i class="snsicon channels"></i></button>
+      <a href="https://v.douyin.com/23tMvspsFSI/" target="_blank" rel="noopener" title="抖音"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 1 1-2.59-2.59c.26 0 .5.04.74.11V9.8a5.7 5.7 0 0 0-.74-.05 5.68 5.68 0 1 0 5.68 5.68V9.01a7.03 7.03 0 0 0 4.11 1.32V7.27a4.28 4.28 0 0 1-3.05-1.45z"/></svg></a>
       <a href="mailto:hjxywangyl@126.com" title="邮箱">
         <svg viewBox="0 0 24 24"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm9 7.2L4.5 7v10h15V7L12 12.2zM4.9 6l7.1 4.9L19.1 6H4.9z"/></svg></a>
     </div>
