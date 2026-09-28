@@ -73,13 +73,16 @@
     color:#1c2033;z-index:0;user-select:none;pointer-events:none;line-height:1;white-space:nowrap}
   .hero-photo{position:relative;z-index:2;width:min(430px,74vw);margin:36px auto 0;height:auto}
   .arch{position:relative;background:linear-gradient(160deg,#1b2a6b,#0f1b4d);
-    border-radius:220px 220px 34px 34px;padding-top:20px;overflow:hidden;aspect-ratio:1/1.14}
+    border-radius:220px 220px 34px 34px;padding-top:20px;overflow:hidden;aspect-ratio:1/1.14;touch-action:pan-y}
   .arch img{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100%;height:100%;object-fit:cover;object-position:top center;max-width:none}
-  .hero-photo .ptag{z-index:4}
-  .hero-photo .ptag.t1{top:96px;left:-46px;transform:rotate(-11deg)}
-  .hero-photo .ptag.t2{top:64px;right:-38px;transform:rotate(9deg)}
-  .hero-photo .ptag.t3{bottom:150px;left:-52px;transform:rotate(8deg)}
-  .hero-photo .ptag.t4{bottom:96px;right:-46px;transform:rotate(-9deg)}
+  /* hero scrub video (cursor left -> engineer, right -> media; default middle) */
+  .arch .hero-vid{position:absolute;inset:0;left:0;transform:none;width:100%;height:100%;object-fit:cover;object-position:top center;max-width:none;display:block;background:#0f1b4d}
+  .hero-photo .ptag{z-index:4;transition:transform .4s cubic-bezier(.25,.1,.25,1),box-shadow .4s ease}
+  .hero-photo .ptag.t1{top:96px;left:-46px;--r:-11deg;transform:rotate(var(--r))}
+  .hero-photo .ptag.t2{top:64px;right:-38px;--r:9deg;transform:rotate(var(--r))}
+  .hero-photo .ptag.t3{bottom:150px;left:-52px;--r:8deg;transform:rotate(var(--r))}
+  .hero-photo .ptag.t4{bottom:96px;right:-46px;--r:-9deg;transform:rotate(var(--r))}
+  .hero-photo .ptag:hover{transform:translateY(-8px) rotate(var(--r)) scale(1.05);box-shadow:0 16px 32px rgba(0,0,0,.5)}
   @media(max-width:600px){
     .hero-photo .ptag.t1{left:-14px}.hero-photo .ptag.t2{right:-10px}
     .hero-photo .ptag.t3{left:-10px;bottom:120px}.hero-photo .ptag.t4{right:-12px;bottom:80px}}
@@ -523,7 +526,9 @@
 <header class="hero" id="top"><div class="wrap">
   <div class="hero-ghost">PORTFOLIO</div>
   <div class="hero-photo">
-    <div class="arch"><img src="assets/portrait.jpg" alt="王妍琳"></div>
+    <div class="arch" id="heroArch">
+      <video class="hero-vid" id="heroVid" src="assets/hero-morph.mp4" poster="assets/hero-morph-poster.jpg" muted playsinline preload="auto"></video>
+    </div>
     <span class="ptag t1">AIGC</span>
     <span class="ptag t2">内容营销</span>
     <span class="ptag t3">社交媒体</span>
@@ -812,7 +817,7 @@
 <!-- WORKS -->
 <section id="works"><div class="wrap-full">
   <div class="wrap"><div class="center"><div class="eyebrow"><span class="dot"></span> 原创作品</div>
-  <h2 class="sec-title">其他文字及绘画动画作品</h2>
+  <h2 class="sec-title">其他原创作品</h2>
   <p style="color:var(--muted);max-width:580px;margin:14px auto 0">图文、漫画及动画等原创内容。</p></div></div>
 
   <div class="marquee">
@@ -918,6 +923,46 @@
     });
     mask.addEventListener('click',function(){mask.classList.remove('open')});
     document.addEventListener('keydown',function(e){if(e.key==='Escape')mask.classList.remove('open')});
+  })();
+  /* HERO SCRUB: cursor left -> engineer, right -> media; default middle (suit) */
+  (function(){
+    var vid=document.getElementById('heroVid'); if(!vid) return;
+    var arch=document.getElementById('heroArch');
+    var host=document.getElementById('top')||vid;
+    var dur=0, target=0.5, cur=0.5, raf=null, ready=false;
+    var canHover=window.matchMedia&&window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+    function draw(){
+      cur+=(target-cur)*0.16;
+      if(Math.abs(target-cur)<0.002) cur=target;
+      if(ready){try{vid.currentTime=Math.max(0,Math.min(dur,cur*dur));}catch(e){}}
+      if(cur!==target){raf=requestAnimationFrame(draw);} else {raf=null;}
+    }
+    function set(n){target=n<0?0:(n>1?1:n); if(!raf) raf=requestAnimationFrame(draw);}
+    vid.addEventListener('loadedmetadata',function(){
+      dur=vid.duration||5; ready=true;
+      try{vid.pause();}catch(e){}
+      try{vid.currentTime=dur*0.5;}catch(e){}   // default: middle (suit), no intro animation
+    });
+    if(canHover){
+      // desktop: mouse move scrubs
+      host.addEventListener('mousemove',function(e){
+        var r=host.getBoundingClientRect();
+        set((e.clientX-r.left)/r.width);
+      });
+    } else {
+      // mobile: drag finger left/right on the portrait scrubs (vertical swipe still scrolls the page)
+      var unlocked=false;
+      function unlock(){ if(unlocked) return; unlocked=true; try{vid.play().then(function(){try{vid.pause();}catch(e){}}).catch(function(){});}catch(e){} }
+      function fromTouch(e){
+        var t=e.touches&&e.touches[0]; if(!t) return;
+        unlock();
+        var r=(arch||vid).getBoundingClientRect();
+        set((t.clientX-r.left)/r.width);
+      }
+      var tgt=arch||vid;
+      tgt.addEventListener('touchstart',fromTouch,{passive:true});
+      tgt.addEventListener('touchmove',fromTouch,{passive:true});
+    }
   })();
 </script>
 </body>
