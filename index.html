@@ -637,14 +637,13 @@
     </div>
     <div class="vwrap">
       <div class="vmain">
-        <video id="vplayer" controls playsinline preload="none"
-          poster="assets/video/glassfrog-cover.jpg" src="assets/video/glassfrog.mp4"></video>
+        <iframe src="https://player.bilibili.com/player.html?isOutside=true&bvid=BV1KpaG6ZEKz&p=1&high_quality=1&quality=80&danmaku=0&autoplay=0" scrolling="no" frameborder="0" framespacing="0" allowfullscreen="true"></iframe>
       </div>
       <div class="vlist">
-        <div class="vitem active" data-src="assets/video/glassfrog.mp4" data-poster="assets/video/glassfrog-cover.jpg">
+        <div class="vitem active" data-bvid="BV1KpaG6ZEKz">
+          <img src="assets/video/aichip-cover.jpg" alt=""><span>更好的AI芯片</span></div>
+        <div class="vitem" data-src="assets/video/glassfrog.mp4" data-poster="assets/video/glassfrog-cover.jpg">
           <img src="assets/video/glassfrog-cover.jpg" alt=""><span>玻璃蛙</span></div>
-        <div class="vitem" data-src="assets/video/porcupine.mp4" data-poster="assets/video/porcupine-cover.jpg">
-          <img src="assets/video/porcupine-cover.jpg" alt=""><span>豪猪</span></div>
         <div class="vitem" data-src="assets/video/avocado.mp4" data-poster="assets/video/avocado-cover.jpg">
           <img src="assets/video/avocado-cover.jpg" alt=""><span>牛油果</span></div>
         <div class="vitem" data-src="assets/video/cochineal.mp4" data-poster="assets/video/cochineal-cover.jpg">
@@ -883,17 +882,23 @@
 
 <script>
   (function(){
-    var player=document.getElementById('vplayer');
-    if(player){
-      document.querySelectorAll('.vitem').forEach(function(it){
-        it.addEventListener('click',function(){
-          document.querySelectorAll('.vitem').forEach(function(x){x.classList.remove('active')});
-          it.classList.add('active');
-          player.src=it.dataset.src; player.poster=it.dataset.poster;
-          player.load(); player.play().catch(function(){});
-        });
-      });
+    var vmain=document.querySelector('.vmain');
+    if(!vmain) return;
+    function showMp4(src,poster){
+      vmain.innerHTML='<video id="vplayer" controls playsinline poster="'+poster+'" src="'+src+'"></video>';
+      var v=vmain.querySelector('video'); if(v){v.load(); v.play().catch(function(){});}
     }
+    function showBili(bvid){
+      vmain.innerHTML='<iframe src="https://player.bilibili.com/player.html?isOutside=true&bvid='+bvid+'&p=1&high_quality=1&quality=80&danmaku=0&autoplay=1" scrolling="no" frameborder="0" framespacing="0" allowfullscreen="true"></iframe>';
+    }
+    document.querySelectorAll('.vitem').forEach(function(it){
+      it.addEventListener('click',function(){
+        document.querySelectorAll('.vitem').forEach(function(x){x.classList.remove('active')});
+        it.classList.add('active');
+        if(it.dataset.bvid){showBili(it.dataset.bvid);}
+        else{showMp4(it.dataset.src,it.dataset.poster);}
+      });
+    });
   })();
   (function(){
     var btn=document.getElementById('expToggle'), d=document.getElementById('expDetail');
